@@ -47,13 +47,13 @@ Each character is:
 - Converted to an integer using `ord()`.
 - Encrypted using RSA formula:
   ```math
-c ≡ m^e mod N
+c ≡ pow(m,e) mod N
 
 ### 3. Message Decryption
 Each encrypted integer is:
-- Decrypted using the formula:  
-```math
-m ≡ c^d mod N
+- Decrypted using the formula:
+m ≡  pow(c, d) mod N
+
 - Converted back to a character using `chr()`.
 
 ---
