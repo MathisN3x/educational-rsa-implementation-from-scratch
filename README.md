@@ -88,4 +88,3 @@ Contributions are welcome for educational clarifications, improved explanations,
 
 ---
 
-If you'd like, I can create a commit with this revised README and/or open a pull request. What would you prefer?
