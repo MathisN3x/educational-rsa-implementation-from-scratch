@@ -1,70 +1,91 @@
-# educational-rsa-implementation-from-scratch
-# 🔐 Educational RSA Implementation From Scratch
+# Educational RSA Implementation — From Scratch 🔐
 
-This project demonstrates a fully manual and educational implementation of the RSA cryptosystem using Python. It walks through the entire process — from generating large prime numbers to encrypting and decrypting messages — without relying on external cryptography libraries.
+This repository contains a fully manual, educational RSA implementation in Python. I developed this project the afternoon after my professor mentioned RSA in class — it was a small, hands‑on exercise completed in one afternoon to explore and understand the algorithm step by step.
 
-> 📘 This implementation is for **educational purposes only** and not suitable for real-world security applications. It omits cryptographic padding and safety considerations required for secure deployments.
+> ⚠️ This implementation is strictly for educational purposes. It omits cryptographic padding, constant‑time operations, and other important security hardening required for real-world use.
 
 ---
 
-## 🧠 What You'll Learn
+## What you'll learn
 
-- The mathematics behind RSA: Euler’s theorem, modular inverses, prime generation.
-- How to implement each step of RSA manually in Python.
-- Encoding text into numbers and vice versa for cryptographic purposes.
+- The mathematics behind RSA: Euler’s theorem, modular inverses and why they work.  
+- How to implement each step of RSA manually in Python (prime generation, key creation, encryption, decryption).  
+- How to encode and decode text to integers for use with RSA.  
 - Common pitfalls and how to interpret results when something goes wrong.
 
 ---
 
-## 📂 Files
+## Files
 
-| File               | Description                             |
-|--------------------|-----------------------------------------|
-| `RSA_test.ipynb`   | Main Jupyter notebook with code + demos |
+| File | Description |
+|------|-------------|
+| `RSA_test.ipynb` | Jupyter notebook with code, demonstrations, and step‑by‑step explanations in English |
 
----
-
-## ⚙️ Features
-
-✅ Manual RSA key generation  
-✅ Encryption and decryption of ASCII-based messages  
-✅ Prime number generation using `sympy`  
-✅ GCD and modular inverse implemented from scratch  
-✅ Explanatory code comments and modular functions  
+Note: The notebook has been expanded with more detailed English explanations and inline commentary to make the math and code easier to follow.
 
 ---
 
-## 🚀 How It Works
+## Mathematical overview
 
-### 1. Key Generation
-- Two large prime numbers `p` and `q` are generated.
-- Compute `N = p * q` and Euler’s totient `φ(N) = (p - 1)(q - 1)`.
-- A public exponent `e` is chosen such that `gcd(e, φ(N)) = 1`.
-- The private key `d` is computed as the modular inverse of `e` mod `φ(N)`.
+Key generation and encryption/decryption formulas (properly encoded):
 
-### 2. Message Encryption
-Each character is:
-- Converted to an integer using `ord()`.
-- Encrypted using RSA formula:
-  ```math c ≡ m^e mod N  ```
+- Choose two distinct prime numbers p and q.
+- Compute the modulus:
+  $$N = p \cdot q$$
+- Compute Euler’s totient:
+  $$\varphi(N) = (p - 1)(q - 1)$$
+- Choose a public exponent e such that:
+  $$\gcd(e, \varphi(N)) = 1$$
+- Compute the private exponent d as the modular inverse of e modulo φ(N):
+  $$d \equiv e^{-1} \pmod{\varphi(N)}$$
 
+Encryption of a message integer m (with 0 ≤ m < N):
+$$c \equiv m^{e} \pmod{N}$$
 
-### 3. Message Decryption
-Each encrypted integer is:
-- Decrypted using the formula:
-```math m ≡  c^d mod N  ```
+Decryption of a ciphertext integer c:
+$$m \equiv c^{d} \pmod{N}$$
 
-- Converted back to a character using `chr()`.
+In the code, each character is converted to an integer (e.g., via ord/chr for ASCII) before applying the above modular exponentiation formulas.
 
 ---
 
-## 💻 Sample Usage
+## Features
+
+- Manual RSA key generation with readable code.  
+- Encryption and decryption of ASCII-based messages.  
+- Prime number generation using `sympy` for convenience.  
+- Greatest common divisor (GCD) and modular inverse implemented from scratch (educational).  
+- Clear, explanatory comments and modular functions.  
+- Expanded notebook with additional, detailed English explanations and worked examples.
+
+---
+
+## Example usage
 
 ```python
 msg = "hello"
-converted_msg= convert_msg(msg)
-cipher = crypt_msg(converted_msg)
+converted_msg = convert_msg(msg)   # convert characters to integers
+cipher = crypt_msg(converted_msg)  # encrypt using public key
 print("Encrypted:", cipher)
 
-plain = decrypt_msg(cipher)
-print("Decrypted:", plain)  # Output: "hello"
+plain = decrypt_msg(cipher)        # decrypt using private key
+print("Decrypted:", plain)         # -> "hello"
+```
+
+---
+
+## Improvements made
+
+- Added a clear note that the idea for this repository originated in class after RSA was mentioned by my professor, and implemented the core demonstration in one afternoon as a learning exercise.  
+- Properly encoded and displayed the core mathematical formulas using LaTeX in the README for clarity.  
+- Expanded the `RSA_test.ipynb` notebook with more detailed English explanations and step‑by‑step commentary to help readers understand each piece of the implementation.
+
+---
+
+## Contributing
+
+Contributions are welcome for educational clarifications, improved explanations, or suggestions to add secure, production‑ready primitives (with appropriate cryptographic padding and libraries). Please open an issue or submit a pull request.
+
+---
+
+If you'd like, I can create a commit with this revised README and/or open a pull request. What would you prefer?
