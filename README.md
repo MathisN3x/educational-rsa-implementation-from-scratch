@@ -43,34 +43,34 @@ Compute the modulus N:
 $`\ N = p \times q `$
 
 Compute Euler's totient function phi(N):
-phi(N) = (p - 1) * (q - 1)
+$`\ \varphi(N) = (p - 1)  \times (q - 1)`$
 
 Select a public exponent e such that:
-gcd(e, phi(N)) = 1
+$`\ \gcd(e, \varphi(N)) = 1`$
 
-Compute the private exponent d as the modular inverse of e modulo phi(N):
-d = e^(-1) mod phi(N)
+Compute the private exponent d as the modular inverse of $`\ e `$ modulo $`\ \varphi(N)`$:
+$`\ d = e^{-1} \mod \varphi(N)`$
 
 This satisfies:
-e * d ≡ 1 (mod phi(N))
+$`\ e \times d ≡ 1 \mod \varphi(N)`$
 
 ### 2.2 Encryption
 
-For a plaintext message represented as an integer m (0 ≤ m < N):
-c = m^e mod N
+For a plaintext message represented as an integer $`\ m (0 ≤ m < N) `$:
+$`\ c = m^e \mod N`$
 
 ### 2.3 Decryption
 
 For a ciphertext integer c:
-m = c^d mod N
+$`\ m = c^d \mod N`$
 
 ### 2.4 Correctness Proof (Euler's Theorem)
 
 If gcd(m, N) = 1, then:
-m^(phi(N)) ≡ 1 (mod N)
+$`\ m^{(\varphi(N))} ≡ 1 \mod N `$
 
 Therefore:
-m^(e*d) = m^(k*phi(N) + 1) = (m^(phi(N)))^k * m ≡ 1^k * m = m (mod N)
+$`\ m^{(e \times d)} = m^{(k.\varphi(N) + 1)} = (m^{(phi(N))})^k \times m ≡ 1^k \times m = m \mod N`$
 
 
 ## 3. NOTEBOOK 1: CLASSICAL RSA IMPLEMENTATION (RSA_test.ipynb)
@@ -126,8 +126,8 @@ Output after decryption: "salut a tous"
 ### 3.5 Implementation Details
 
 - Prime generation uses sympy.primerange() with a random limit between 50 and 100
-- Public exponent e is the smallest integer > 1 where gcd(e, phi) = 1
-- Private exponent d is found by iterating until (e * i) % phi == 1
+- Public exponent e is the smallest integer > 1 where $`\gcd(e, \varphi) = 1`$
+- Private exponent d is found by iterating until ```(e * i) % phi == 1```
 - Modular exponentiation uses the ** operator (not constant-time)
 
 ## 4. NOTEBOOK 2: SIDE-CHANNEL ATTACK (rsa.ipynb)
@@ -207,28 +207,29 @@ Trainable parameters: 305
 
 Binary cross-entropy:
 
-L(y, y_hat) = -[y * log(y_hat) + (1 - y) * log(1 - y_hat)]
+$`\ L(y, y_{hat}) = -[y. log(y_{hat}) + (1 - y) . log(1 - y_{hat})]`$
 
 where:
-- y is the true label (0 or 1)
-- y_hat is the predicted probability that the label is 1
+- $`\ y `$ is the true label (0 or 1)
+- $`\ y_{hat} `$ is the predicted probability that the label is 1
 
 ### 4.7 Optimizer
 
 Adam (Adaptive Moment Estimation)
 
 Update rule:
-m_t = beta1 * m_{t-1} + (1 - beta1) * g_t
-v_t = beta2 * v_{t-1} + (1 - beta2) * g_t^2
-m_hat_t = m_t / (1 - beta1^t)
-v_hat_t = v_t / (1 - beta2^t)
-theta_{t+1} = theta_t - alpha * m_hat_t / (sqrt(v_hat_t) + epsilon)
+$`\ m_t = \beta_1 \times m_{t-1} + (1 - \beta_1) \times g_t`$  
+$`\ v_t = \beta_2 \times v_{t-1} + (1 - \beta_2) \times g_t^2`$  
+$`\ m_{hat_t} = m_t / (1 - \beta_1^t)`$  
+$`\ v_{hat_t} = v_t / (1 - \beta_2^t)`$  
+$`\ \theta_{t+1} = \theta_t - \alpha \times m_{hat_t} / (sqrt(v_{hat_t}) + \epsilon)`$  
 
 Parameters used in implementation:
-- alpha (learning rate) = 0.001 (default)
-- beta1 = 0.9 (default)
-- beta2 = 0.999 (default)
-- epsilon = 1e-7 (default)
+
+- $`\ \alpha (learning rate) = 0.001 (default)`$  
+- $`\ \beta_1 = 0.9  (default)`$  
+- $`\ \beta_2 = 0.999 (default)`$  
+- $`\ \epsilon = 1e-7 (default)`$  
 
 ### 4.8 Attack Workflow
 
@@ -255,15 +256,15 @@ Parameters used in implementation:
 
 ### 4.9 Mathematical Formulation of the Attack
 
-Let T(b) be the power trace for exponent bit b in {0, 1}.
+Let $`\ T(b) `$ be the power trace for exponent bit b in {0, 1}.
 
-The classifier learns a function f: R^6 → [0, 1] such that:
+The classifier learns a function $`\ f: R^6 → [0, 1] `$ such that:
 
-f(T) ≈ P(b = 1 | T)
+$`\ f(T) ≈ P(b = 1 | T)`$
 
 The decision rule is:
 
-b_hat = 1 if f(T) > 0.5 else 0
+$`\ b_hat = 1 if f(T) > 0.5 else 0`$
 
 The attack succeeds when b_hat = b for a sufficient number of bits to
 reconstruct the entire private exponent.
